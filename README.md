@@ -8,5 +8,5 @@
 If you have VS Code, simply open the main directory in VS Code, open a new console, and type "npm run ts".
 
 ## Configs
-All configs are located in src/config.json 
+All configs are located in src/config.json  
 If you want to change the keywords, you can alter them in src/keywords.json
