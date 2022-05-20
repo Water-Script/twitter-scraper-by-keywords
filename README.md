@@ -17,7 +17,7 @@
 - If there is a rate limit error, don't be alarmed. It just means that we picked up too many tweets in this time period. This will happen randomly since we can't control how many tweets we have to look through to find something viable. To fix, we just have to wait a few minutes for the limit to reset. You will have to run the program again.
 - If you get the green success text at the bottom you can either close the window or press any key to exit the command prompt. The resulting CSV file is in the "csvResults" folder and is numbered starting at 0. 0 is the oldest CSV file. Feel free to delete the *CSV Files* if you no longer need them.
 
-## Import To Google Sheet
+## Importing the CSV file to a Google Sheet
 1. Go to file
 2. Click import
 3. Select Upload
