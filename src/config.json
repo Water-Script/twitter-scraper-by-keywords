@@ -1,4 +1,4 @@
 {
-    "MaxTweetsPerKeyword": 100,
-    "TotalMaxSearchRequests": 1000
+    "MaxTweetsPerKeyword": 50,
+    "TotalMaxSearchRequests": 3000
 }
