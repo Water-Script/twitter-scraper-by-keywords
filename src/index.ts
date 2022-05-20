@@ -1,11 +1,10 @@
-import TwitterApi, {ApiRequestError, ApiResponseError, TwitterV2IncludesHelper} from "twitter-api-v2";
+import TwitterApi, {ApiResponseError, TwitterV2IncludesHelper} from "twitter-api-v2";
 import TwitterApiRateLimitPlugin from "@twitter-api-v2/plugin-rate-limit";
 import dotenv from "dotenv";
 import {words as keywords} from "./keywords.json";
 import config from "./config.json";
 import {promises as fs} from "fs";
 import chalk from "chalk";
-import promptSync from "prompt-sync";
 
 interface UserData {
     tweetText: string;
@@ -18,13 +17,12 @@ interface UserData {
 }
 
 dotenv.config();
-const prompt = promptSync();
 
 async function arrayToCsv(data: UserData[]) {
-    if (!data[0]) {
-        console.error(chalk.red("NO DATA PASSED INTO FUNCTION.\nTHIS SHOULD NOT BE RUNNING!"));
-        prompt("");
-        process.exit();
+    if (!data[0]) {  // Sanity check.
+        //console.error(chalk.red("NO DATA PASSED INTO FUNCTION.\nTHIS SHOULD NOT BE RUNNING!"));
+        //process.exit();
+        throw new Error("NO DATA PASSED INTO JSON TO CSV FUNCTION. THIS SHOULD NEVER HAPPEN!");
     }
 
     let csv = data.map(row => Object.values(row));
@@ -35,14 +33,8 @@ async function arrayToCsv(data: UserData[]) {
         const affex: number = (await fs.readdir("./csvResult")).length;
         await fs.writeFile(`./csvResult/data_${affex}.csv`, csvStr, "utf-8");
     } catch(err) {
-        console.error(chalk.red(err));
-        prompt("");
-        process.exit();
+        throw err;
     }
-}
-
-async function wait(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 const rateLimitPlugin = new TwitterApiRateLimitPlugin();
@@ -57,6 +49,7 @@ let totalSearches: number = 0;
 keywords.reduce(async function(promise, word) {
     await promise;
     console.log(`Searching for ${word}...`);
+
     if (totalSearches >= config.TotalMaxSearchRequests) {
         console.log(chalk.redBright("  > Max searches reached."));
         console.log(`Requests: ${totalSearches}\nMax: ${config.TotalMaxSearchRequests}`);
@@ -64,7 +57,6 @@ keywords.reduce(async function(promise, word) {
     }
     
     let tweetsSaved: number = 0;
-
     let tweets = await client.v2.search(word, {
         "tweet.fields": ["author_id", "lang", "in_reply_to_user_id", "referenced_tweets"],
         "user.fields": ["name", "username", "url", "id"],
@@ -121,12 +113,10 @@ keywords.reduce(async function(promise, word) {
                     // } else {
                     //     process.exit();
                     // }
-                    prompt("");
                     process.exit();
                 } else {
                     //throw error;
                     console.error(chalk.red(error));
-                    prompt("");
                     process.exit();
                 }
             }
@@ -142,8 +132,6 @@ keywords.reduce(async function(promise, word) {
     console.log(chalk.green("Finished searching for tweets."));
     arrayToCsv(userData);
     console.log(chalk.green("csv file created!"));
-    prompt("");
 }).catch(function(err) {
     console.error(chalk.red(err));
-    prompt("");
 });
