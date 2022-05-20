@@ -18,7 +18,7 @@
 - If you get the green success text at the bottom you can either close the window or press any key to exit the command prompt. The resulting CSV file is in the "csvResults" folder and is numbered starting at 0. 0 is the oldest CSV file. Feel free to delete the *CSV Files* if you no longer need them.
 
 ## Import To Google Sheet
-1.Go to file
+1. Go to file
 2. Click import
 3. Select Upload
 4. Select the CSV file on your PC
