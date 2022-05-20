@@ -3,6 +3,8 @@
 ## **IMPORTANT**
 1. Create an empty folder in the main directory called *"csvResult"*.
 2. Change the values in the `.env` file to match your bot!!!
+3. You MUST have Node.JS installed! (*Download version 16.15.0*)
+> https://nodejs.org/en/
 
 ## Configs
 - All configs are located in `src/config.json`  
